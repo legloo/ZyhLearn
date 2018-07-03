@@ -1,0 +1,36 @@
+/*
+* MAC OSX
+/
+DOWNLOAD:
+> sudo curl -0 https://fastdl.mongodb.org/osx/mongodb-osx-x86_64-3.4.2.tgz
+
+ONZIP:
+> tar -zxvf mongodb-osx-ssl-x86_64-3.4.2.tgz
+
+ENV_PATH:
+> vim ~/.bash_profile;
+add:export PATH=/usr/local/Cellar/mongodb/3.4.2/bin/:$PATH;//this is MY path!
+
+INSTALL:
+> cd /usr/loacl/Cellar/mongodb/3.4.2/bin;
+> brew install mongodb
+> brew install mongodb --devel
+
+DATA BASE:
+> cd /usr/loacl/Cellar/mongodb/3.4.2/bin;
+> mkdir -p /data/db
+-- issues:
+when you run command:mongod,it might be show:
+MongoDB: exception in initAndListen: 20 Attempted to create a lock file on a read-only directory: /data/db, terminating;
+and you could try this, which will make the directory writable by everyone:
+> sudo chmod -R go+w /data/db
+or this, which will make the directory owned by you:
+> sudo chown -R $USER /data/db
+
+serverStart:
+> mongod
+
+serverStop:
+> mongo
+> use admin
+> db.shutdownServer()
