@@ -1,0 +1,93 @@
+//html
+<div class="pages">
+    <button class="defalutbtn" (click)="firstpage()">首页</button>
+    <button class="defalutbtn" (click)="prepage()">上一页</button>
+    <button class="subtn" *ngFor="let num of pagenumarray" [ngClass]="{active:num == currentpagenum+1}" (click)="numpage(num)">{{num}}</button>
+    <button class="defalutbtn" (click)="nextpage()">下一页</button>
+    <button class="defalutbtn" (click)="lastpage()">末页</button>
+    <label disabled>共计:{{banners.length}}个</label>
+  </div>
+//html
+
+//scss
+ .pages {
+        text-align: center;
+        button:active {
+            opacity: 0.5
+        }
+        .active {
+            color: rgb(56, 184, 223);
+            border: 1px solid rgb(56, 184, 223)!important;
+        }
+        .defalutbtn {
+            border: 1px solid #d0cccc;
+            color: #5a5a59;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .subtn {
+            font-size: 17px;
+            border: 1px solid #adabab;
+            margin: 0 2px;
+            cursor: pointer;
+        }
+    }
+//scss
+
+//ts
+
+//分页
+
+  banners: Array<any> = [];//所有项目
+  currents: Array<any> = [];//当前页项目
+  pagenum = 0;//分页数量
+  onepagenum = 5//一页显示个数
+  pagenumarray: Array<any> = [];
+  currentpagenum = 0;
+  
+  //分页
+  
+   this.banners = list;//总数据赋值
+      this.currents = [];
+      this.currents = this.banners.slice(0, this.onepagenum);
+      this.pagenum = Math.ceil(this.banners.length / this.onepagenum);
+      this.pagenumarray = [];
+      for (let i = 0; i < this.pagenum; i++) {
+        this.pagenumarray[i] = i + 1;
+      };
+      
+      
+       //分页开始
+  numpage(num) {
+    this.currents = this.banners.slice((num - 1) * this.onepagenum, num * this.onepagenum);
+    this.currentpagenum = num - 1;
+  }
+  firstpage() {
+    this.currents = this.banners.slice(0, this.onepagenum);
+    this.currentpagenum = 0;
+  }
+  lastpage() {
+    this.currents = this.banners.slice((this.pagenum - 1) * this.onepagenum);
+    this.currentpagenum = this.pagenum - 1;
+  }
+  nextpage() {
+    console.log(this.currentpagenum);
+    if (this.currentpagenum + 1 == this.pagenum) {
+      console.log('到最后一页了')
+      return;
+    };
+    this.currentpagenum += 1;
+    this.currents = this.banners.slice(this.currentpagenum * this.onepagenum, (this.currentpagenum + 1) * this.onepagenum);
+
+  };
+  prepage() {
+    if (this.currentpagenum == 0) {
+      console.log('到首页了')
+      return;
+    };
+    this.currentpagenum -= 1;
+    this.currents = this.banners.slice(this.currentpagenum * this.onepagenum, (this.currentpagenum + 1) * this.onepagenum)
+  }
+  //分页结束
+  
+//ts
